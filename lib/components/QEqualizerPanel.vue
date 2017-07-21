@@ -1,7 +1,16 @@
 <template>
 	<q-panel class="q-eq-panel">
 		<q-panel class="q-eq-panel-control" column v-for="hz in eqList" :key="hz">
-			<vue-slider :ref="`eq-${hz}`" style="flex: 1" :min="0" :max="20" :value="getEQValue(hz)" @callback="setEQValue(hz, ...arguments)" direction="vertical"></vue-slider>
+			<vue-slider
+				:ref="`eq-${hz}`"
+				style="flex: 1"
+				:min="-50"
+				:max="50"
+				:value="getEQValue(hz)"
+				@callback="setEQValue(hz, ...arguments)"
+				direction="vertical">
+			</vue-slider>
+
 			<div class="q-eq-caption" v-text="getEQText(hz)"></div>
 		</q-panel>
 	</q-panel>
@@ -83,11 +92,10 @@
 
 		methods: {
 			getEQValue(hz){
-				return this.eq[hz] * 2;
+				return this.eq[hz];
 			},
 
 			setEQValue(hz, gain){
-				gain = (gain) / 2;
 				this.$store.dispatch('equalizer:eq', {hz, gain});
 			},
 
